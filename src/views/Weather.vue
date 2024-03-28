@@ -24,9 +24,8 @@ export default defineComponent({
         };
 
         watch(city, async (newValue) => {
-            if (newValue == '') {
+            if (newValue == '' || newValue.length < 2)
                 searchBoxOpen.value = false;
-            }
         })
 
         const handleClickOutside = (event: MouseEvent) => {
@@ -87,19 +86,20 @@ export default defineComponent({
     <section class="mx-auto p-5 md:p-12">
         <header ref="searchBoxRef" class="relative my-5">
             <form @submit.prevent="onSubmit"
-                class="flex bg-gray-900 text-white border border-gray-700 rounded-full px-3 py-2.5 w-full md:w-2/3 lg:w-1/3">
-                <input type="text" v-model="city" class="appearance-none bg-gray-900 px-2 outline-none w-full"
-                    placeholder="Search city" />
-                <button v-if="!searchBoxOpen" class="flex justify-center items-center bg-gray-700 rounded-full p-2">
-                    <svg class="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
+                class="flex justify-center items-center bg-gray-900 text-white border border-gray-700 rounded-full px-3 py-2.5 w-full md:w-2/3 lg:w-1/3">
+
+                <label htmlFor="city" className='opacity-50'>
+                    <svg className="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
                         height="24" fill="none" viewBox="0 0 24 24">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-width="2"
+                        <path stroke="currentColor" strokeLinecap="round" strokeWidth="2"
                             d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z" />
                     </svg>
-                </button>
-                <button v-else class="flex justify-center items-center bg-gray-700 rounded-full p-2"
+                </label>
+                <input type="text" v-model="city" class="appearance-none bg-gray-900 px-2 outline-none w-full"
+                    placeholder="Search city" />
+                <div v-if="searchBoxOpen" class="opacity-50 cursor-pointer"
                     @click="closeSearchBox">
-                    <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="24" height="24"
+                    <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20"
                         viewBox="0,0,256,256">
                         <g fill="#ffffff" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt"
                             stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0"
@@ -112,8 +112,9 @@ export default defineComponent({
                             </g>
                         </g>
                     </svg>
-                </button>
+                </div>
             </form>
+
             <SearchBox v-if="searchBoxOpen" :searchResult="city" @close="closeSearchBox" />
         </header>
 
