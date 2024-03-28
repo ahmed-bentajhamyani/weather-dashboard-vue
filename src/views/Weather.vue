@@ -15,6 +15,7 @@ export default defineComponent({
         const longitude = ref<number | null>(null);
         const error = ref<string | null>(null);
         const city = ref<string>('');
+        const closeButton = ref<boolean>(false);
         const searchResult = ref<any>(null);
         const searchBoxOpen = ref<boolean>(false);
         const searchBoxRef = ref<HTMLDivElement | null>(null);
@@ -24,8 +25,12 @@ export default defineComponent({
         };
 
         watch(city, async (newValue) => {
-            if (newValue == '' || newValue.length < 2)
+            if (newValue == '') {
                 searchBoxOpen.value = false;
+                closeButton.value = false;
+            } else {
+                closeButton.value = true;
+            }
         })
 
         const handleClickOutside = (event: MouseEvent) => {
@@ -72,6 +77,7 @@ export default defineComponent({
             longitude,
             error,
             city,
+            closeButton,
             searchResult,
             searchBoxOpen,
             searchBoxRef,
@@ -87,7 +93,6 @@ export default defineComponent({
         <header ref="searchBoxRef" class="relative my-5">
             <form @submit.prevent="onSubmit"
                 class="flex justify-center items-center bg-gray-900 text-white border border-gray-700 rounded-full px-3 py-2.5 w-full md:w-2/3 lg:w-1/3">
-
                 <label htmlFor="city" className='opacity-50'>
                     <svg className="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
                         height="24" fill="none" viewBox="0 0 24 24">
@@ -97,8 +102,7 @@ export default defineComponent({
                 </label>
                 <input type="text" v-model="city" class="appearance-none bg-gray-900 px-2 outline-none w-full"
                     placeholder="Search city" />
-                <div v-if="searchBoxOpen" class="opacity-50 cursor-pointer"
-                    @click="closeSearchBox">
+                <div v-if="closeButton" class="opacity-50 cursor-pointer" @click="closeSearchBox">
                     <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20"
                         viewBox="0,0,256,256">
                         <g fill="#ffffff" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt"

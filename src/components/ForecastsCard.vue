@@ -40,6 +40,7 @@ const getForecastByCity = async () => {
                     filteredForecast.push(res.data.list[i]);
                 }
                 forecasts.value = filteredForecast;
+
             }
         } catch (error) {
             console.log('error', error);
@@ -54,7 +55,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <aside v-if="forecasts" class="col-span-3 xl:col-span-4 flex flex-wrap">
+    <aside v-if="forecasts.length" class="col-span-3 xl:col-span-4 flex flex-wrap">
         <div class="w-full px-2">
             <div
                 class="bg-gray-900 text-white border border-gray-700 relative min-w-0 break-words rounded-3xl overflow-hidden shadow-sm mb-4 w-full">
